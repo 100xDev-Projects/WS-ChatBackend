@@ -43,7 +43,11 @@ wss.on("connection", (socket) => {
     })
 
     socket.on("disconnect", () => {
-        
-        
+        userCount = userCount - 1
+        // Remove socket from all rooms
+        Object.keys(allSockets).forEach((room) => {
+            allSockets[room] = allSockets[room]?.filter((s) => s !== socket) || []
+        })
+        console.log("client disconnected. Total users: " + userCount)
     })
 })
